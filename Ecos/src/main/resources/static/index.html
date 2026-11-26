@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#075b3b">
+  <title>ECOS | IFPB</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <header class="topbar">
+    <a class="brand" href="#inicio"
+       onclick="navegarPara('tela-login'); return false;"
+       aria-label="ECOS - início">
+      <span class="brand-mark">E</span>
+      <span>
+        <strong>ECOS</strong>
+        <small>Escuta, acolhimento e orientação</small>
+      </span>
+    </a>
+
+    <nav id="main-nav" class="hidden" aria-label="Navegação principal">
+      <button onclick="navegarPara('tela-home')">Início</button>
+      <button onclick="navegarPara('tela-denuncia')">Registrar denúncia</button>
+      <button onclick="navegarPara('tela-listagem')">Acompanhamento</button>
+      <button onclick="navegarPara('tela-atendimento')">Atendimento especial</button>
+      <button class="btn-logout" onclick="sair()">Sair</button>
+    </nav>
+  </header>
+
+  <main class="container">
+
+    <!-- TELA 1: LOGIN -->
+    <section id="tela-login" class="tela active">
+      <div class="login-layout">
+
+        <aside class="institution-panel">
+          <div class="ifpb-wordmark">
+            <span class="ifpb-acronym">IFPB</span>
+            <span>
+              INSTITUTO FEDERAL<br>
+              <strong>Paraíba</strong>
+            </span>
+          </div>
+
+          <div class="institution-copy">
+            <span class="eyebrow"></span>
+            <h1>Um espaço de escuta, respeito e cuidado.</h1>
+            <p>
+              O ECOS aproxima você dos canais de denúncia,
+              acompanhamento e atendimento especializado
+              do Instituto Federal da Paraíba.
+            </p>
+          </div>
+
+          <div class="panel-decoration" aria-hidden="true">
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+        </aside>
+
+        <div class="card-login">
+          <div class="login-heading">
+            <span class="mini-label">ÁREA DO USUÁRIO</span>
+            <h2>Bem-vindo(a) ao ECOS</h2>
+            <p class="subtitle-text">
+              Entre com os dados da sua conta cadastrada.
+            </p>
+          </div>
+
+          <form id="login-form" onsubmit="realizarLogin(event)">
+            <div class="form-group">
+              <label for="usuario">Matrícula</label>
+              <input
+                type="text"
+                id="usuario"
+                placeholder="Digite sua matrícula"
+                autocomplete="username"
+                required
+              >
+            </div>
+
+            <div class="form-group">
+              <label for="senha">Senha</label>
+              <input
+                type="password"
+                id="senha"
+                placeholder="Digite sua senha"
+                autocomplete="current-password"
+                required
+              >
+            </div>
+
+            <button type="submit" class="btn-primary full-width">
+              Entrar no sistema <span aria-hidden="true">→</span>
+            </button>
+
+            <p
+              id="login-mensagem"
+              class="form-message"
+              role="status"
+              aria-live="polite"
+            ></p>
+          </form>
+
+          <p class="register-prompt">
+            Ainda não tem uma conta?
+            <button
+              class="text-button"
+              type="button"
+              onclick="navegarPara('tela-cadastro')"
+            >
+              Criar conta
+            </button>
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- CADASTRO DE USUÁRIO -->
+    <section id="tela-cadastro" class="tela">
+      <div class="page-heading">
+        <span class="mini-label">NOVO ACESSO</span>
+        <h2>Criar conta</h2>
+        <p>
+          Preencha seus dados para acessar o ambiente de demonstração do ECOS.
+        </p>
+      </div>
+
+      <form class="form-card" onsubmit="criarConta(event)">
+        <div class="form-grid">
+
+          <div class="form-group">
+            <label for="cadastro-nome">Nome completo *</label>
+            <input
+              id="cadastro-nome"
+              type="text"
+              autocomplete="name"
+              required
+            >
+          </div>
+
+          <div class="form-group">
+            <label for="cadastro-matricula">Matrícula *</label>
+            <input
+              id="cadastro-matricula"
+              type="text"
+              required
+            >
+          </div>
+
+          <div class="form-group">
+            <label for="cadastro-campus">Campus *</label>
+            <select id="cadastro-campus" required>
+              <option value="">Selecione seu campus</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="cadastro-perfil">Vínculo com o IFPB *</label>
+            <select id="cadastro-perfil" required>
+              <option value="">Selecione</option>
+              <option>Discente</option>
+              <option>Docente</option>
+              <option>Servidor</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="cadastro-senha">Criar senha *</label>
+            <input
+              id="cadastro-senha"
+              type="password"
+              minlength="6"
+              autocomplete="new-password"
+              required
+            >
+          </div>
+
+          <div class="form-group">
+            <label for="cadastro-confirmar">Confirmar senha *</label>
+            <input
+              id="cadastro-confirmar"
+              type="password"
+              minlength="6"
+              autocomplete="new-password"
+              required
+            >
+          </div>
+
+        </div>
+
+        <p
+          id="cadastro-mensagem"
+          class="form-message"
+          role="status"
+          aria-live="polite"
+        ></p>
+
+        <div class="actions">
+          <button
+            type="button"
+            class="btn-secondary"
+            onclick="navegarPara('tela-login')"
+          >
+            Voltar ao login
+          </button>
+
+          <button type="submit" class="btn-primary">
+            Criar conta
+          </button>
+        </div>
+      </form>
+    </section>
+
+    <!-- TELA 2: HOME -->
+    <section id="tela-home" class="tela">
+      <div class="home-hero">
+
+        <div class="hero-copy">
+          <span class="eyebrow">INSTITUTO FEDERAL DA PARAÍBA</span>
+
+          <h1>
+            Olá,
+            <span id="nome-usuario">que bom ter você por aqui</span>.
+          </h1>
+
+          <p>
+            O ECOS é um canal de acolhimento e orientação.
+            Escolha como deseja prosseguir. Estamos aqui para ouvir e ajudar.
+          </p>
+
+          <div class="hero-tags">
+            <span>Escuta</span>
+            <span>Respeito</span>
+            <span>Acolhimento</span>
+          </div>
+        </div>
+
+        <div
+          class="hero-visual"
+          aria-label="Identificação do Instituto Federal da Paraíba"
+        >
+          <div class="visual-circle circle-one"></div>
+          <div class="visual-circle circle-two"></div>
+
+          <div class="visual-card">
+            <span class="visual-ifpb">IFPB</span>
+            <strong>ECOS</strong>
+            <small>Escuta, acolhimento e orientação</small>
+          </div>
+        </div>
+      </div>
+
+      <div class="section-heading">
+        <div>
+          <span class="mini-label">SERVIÇOS</span>
+          <h2>Como podemos ajudar?</h2>
+        </div>
+        <p>Escolha uma opção para continuar.</p>
+      </div>
+
+      <div class="grid-services">
+
+        <button
+          class="card-service service-red"
+          onclick="navegarPara('tela-denuncia')"
+        >
+          <span class="service-icon">!</span>
+          <span class="service-arrow">↗</span>
+          <h3>Registrar denúncia</h3>
+          <p>
+            Comunique situações de assédio, discriminação,
+            bullying ou outras ocorrências.
+          </p>
+          <span class="service-link">
+            Acessar serviço <b>→</b>
+          </span>
+        </button>
+
+        <button
+          class="card-service service-blue"
+          onclick="navegarPara('tela-listagem')"
+        >
+          <span class="service-icon">⌕</span>
+          <span class="service-arrow">↗</span>
+          <h3>Acompanhar registros</h3>
+          <p>
+            Consulte as denúncias e solicitações enviadas por você.
+          </p>
+          <span class="service-link">
+            Acessar serviço <b>→</b>
+          </span>
+        </button>
+
+        <button
+          class="card-service service-green"
+          onclick="navegarPara('tela-atendimento')"
+        >
+          <span class="service-icon">♡</span>
+          <span class="service-arrow">↗</span>
+          <h3>Atendimento especial</h3>
+          <p>
+            Solicite acolhimento e apoio da equipe responsável.
+          </p>
+          <span class="service-link">
+            Acessar serviço <b>→</b>
+          </span>
+        </button>
+
+      </div>
+
+      <div class="help-strip">
+        <span class="help-symbol">i</span>
+        <p>
+          <strong>Precisa de ajuda?</strong>
+          Em caso de dúvidas, procure os canais institucionais
+          de atendimento do seu campus.
+        </p>
+      </div>
+    </section>
+
+    <!-- TELA 3: REALIZAR DENÚNCIA -->
+    <section id="tela-denuncia" class="tela">
+      <div class="page-heading">
+        <span class="mini-label">CANAL DE ESCUTA</span>
+        <h2>Registrar denúncia</h2>
+        <p>
+          Compartilhe as informações necessárias.
+          O relato será tratado com cuidado e confidencialidade.
+        </p>
+      </div>
+
+      <form onsubmit="salvarDenuncia(event)" class="form-card">
+        <div class="form-grid">
+
+          <div class="form-group">
+            <label for="denuncia-data">Data do ocorrido *</label>
+            <input type="date" id="denuncia-data" required>
+          </div>
+
+          <div class="form-group">
+            <label for="denuncia-tipo">Tipo de ocorrência *</label>
+            <select id="denuncia-tipo" required>
+              <option value="">Selecione uma opção</option>
+              <option>Assédio moral</option>
+              <option>Assédio sexual</option>
+              <option>Discriminação / preconceito</option>
+              <option>Bullying / cyberbullying</option>
+              <option>Outros</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="denuncia-campus">Campus onde ocorreu *</label>
+            <select id="denuncia-campus" required>
+              <option value="">Selecione o campus</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="denuncia-local">Local específico *</label>
+            <input
+              type="text"
+              id="denuncia-local"
+              placeholder="Ex.: sala de aula, corredor, setor..."
+              required
+            >
+          </div>
+
+          <div class="form-group full">
+            <label for="denuncia-desc">Descrição do ocorrido *</label>
+            <textarea
+              id="denuncia-desc"
+              rows="5"
+              placeholder="Conte o que aconteceu, incluindo as informações que considerar importantes."
+              required
+            ></textarea>
+          </div>
+
+          <div class="form-group full">
+            <label for="denuncia-pessoal">
+              Informações adicionais ou contato (opcional)
+            </label>
+            <textarea
+              id="denuncia-pessoal"
+              rows="3"
+              placeholder="Se desejar, informe outras informações que possam ajudar no acolhimento."
+            ></textarea>
+          </div>
+
+        </div>
+
+        <p
+          id="denuncia-mensagem"
+          class="form-message"
+          role="status"
+          aria-live="polite"
+        ></p>
+
+        <div class="actions">
+          <button
+            type="button"
+            class="btn-secondary"
+            onclick="navegarPara('tela-home')"
+          >
+            Cancelar
+          </button>
+
+          <button type="submit" class="btn-primary">
+            Enviar denúncia
+          </button>
+        </div>
+      </form>
+    </section>
+
+    <!-- TELA 4: ACOMPANHAMENTO -->
+    <section id="tela-listagem" class="tela">
+      <div class="page-heading">
+        <span class="mini-label">ÁREA DO USUÁRIO</span>
+        <h2>Acompanhamento de registros</h2>
+        <p>
+          Consulte as denúncias e solicitações vinculadas à sua conta.
+        </p>
+      </div>
+
+      <div class="filter-bar">
+        <input
+          type="search"
+          id="busca-input"
+          placeholder="Buscar nos seus registros"
+          oninput="filtrarTabela()"
+        >
+
+        <select id="filtro-campus" onchange="filtrarTabela()">
+          <option value="">Todos os campi</option>
+        </select>
+
+        <select id="filtro-situacao" onchange="filtrarTabela()">
+          <option value="">Todas as situações</option>
+          <option value="Recebida">Recebida</option>
+          <option value="Em análise">Em análise</option>
+          <option value="Concluída">Concluída</option>
+        </select>
+      </div>
+
+      <div class="empty-state" id="lista-vazia">
+        <span class="empty-icon">⌕</span>
+        <h3>Você ainda não possui registros</h3>
+        <p>
+          Quando você enviar uma denúncia ou solicitação,
+          ela aparecerá nesta área.
+        </p>
+      </div>
+
+      <div class="table-wrap" id="tabela-wrap" hidden>
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Tipo</th>
+              <th>Campus</th>
+              <th>Data de envio</th>
+              <th>Situação</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody id="tabela-corpo"></tbody>
+        </table>
+      </div>
+
+      <p
+        id="filtro-mensagem"
+        class="form-message"
+        role="status"
+        aria-live="polite"
+      ></p>
+    </section>
+
+    <!-- TELA 5: DETALHES DO REGISTRO -->
+    <section id="tela-detalhes" class="tela">
+      <div class="page-heading">
+        <span class="mini-label">ACOMPANHAMENTO</span>
+        <h2>Detalhes do registro</h2>
+        <p>
+          Confira as informações enviadas e a situação atual.
+        </p>
+      </div>
+
+      <div class="form-card" id="detalhe-conteudo">
+        <p class="muted">
+          Selecione um registro na área de acompanhamento
+          para consultar os detalhes.
+        </p>
+
+        <div class="actions">
+          <button
+            class="btn-secondary"
+            onclick="navegarPara('tela-listagem')"
+          >
+            Voltar ao acompanhamento
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- TELA 6: ATENDIMENTO ESPECIAL -->
+    <section id="tela-atendimento" class="tela">
+      <div class="page-heading">
+        <span class="mini-label">CUIDADO E ORIENTAÇÃO</span>
+        <h2>Solicitar atendimento especial</h2>
+        <p>
+          Informe como podemos ajudar.
+          Sua solicitação será direcionada à equipe responsável.
+        </p>
+      </div>
+
+      <form onsubmit="salvarAtendimento(event)" class="form-card">
+        <div class="form-grid">
+
+          <div class="form-group">
+            <label for="atendimento-campus">Campus *</label>
+            <select id="atendimento-campus" required>
+              <option value="">Selecione o campus</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="atendimento-perfil">Atendimento desejado *</label>
+            <select id="atendimento-perfil" required>
+              <option value="">Selecione uma opção</option>
+              <option value="Psicologia">Acolhimento psicológico</option>
+              <option value="Assistência social">Assistência social</option>
+              <option value="COPED">COPED / apoio pedagógico</option>
+              <option value="NUCA">NUCA / núcleo de apoio</option>
+              <option value="Outro">Outro atendimento</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="atendimento-data">
+              Data e horário pretendidos *
+            </label>
+            <input
+              type="datetime-local"
+              id="atendimento-data"
+              required
+            >
+          </div>
+
+          <div class="form-group">
+            <label for="atendimento-aluno">Nome do solicitante *</label>
+            <input
+              type="text"
+              id="atendimento-aluno"
+              placeholder="Informe seu nome"
+              required
+            >
+          </div>
+
+          <div class="form-group full">
+            <label for="atendimento-solic">Como podemos ajudar? *</label>
+            <textarea
+              id="atendimento-solic"
+              rows="4"
+              placeholder="Descreva brevemente o motivo da solicitação."
+              required
+            ></textarea>
+          </div>
+
+        </div>
+
+        <p
+          id="atendimento-mensagem"
+          class="form-message"
+          role="status"
+          aria-live="polite"
+        ></p>
+
+        <div class="actions">
+          <button
+            type="button"
+            class="btn-secondary"
+            onclick="navegarPara('tela-home')"
+          >
+            Cancelar
+          </button>
+
+          <button type="submit" class="btn-primary">
+            Enviar solicitação
+          </button>
+        </div>
+      </form>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <span>ECOS · IFPB</span>
+    <span>
+      Desenvolvido pela softhouse <strong>DevAs</strong>.
+    </span>
+  </footer>
+
+  <script src="script.js?v=3"></script>
+
+</body>
+</html>
